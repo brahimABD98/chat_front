@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar background="#0083fa">
+    <ion-title>{{ this.receiverId }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list id="messages" style="height: calc(100% - 90px); overflow: scroll;" lines="none">
+    <ion-item [attr.class]="(message.sender == this.senderId) ? 'sent' : 'received'" *ngFor="let message of messages">
+      <div class="message-wrapper">
+        <div class="message">
+          {{ message.content }}
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div>
+      <div style="height: 20px; margin-bottom: 20px;" id="input-wrapper">
+        <ion-input (click)="removeLine()" placeholder="Aa" ngModel name="message" type="text" expand="block" required></ion-input>
+      </div>
+      <button [disabled]="!f.valid" type="submit">Send</button>
+    </div>
+  </form>
+</ion-content>
