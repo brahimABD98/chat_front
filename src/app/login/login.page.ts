@@ -12,26 +12,29 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private _http:HttpClient, private router: Router) { }
+  constructor(private _http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
 
   onSubmit(form: NgForm) {
-    this._http.post('http://localhost:3000/api/users/login', (form.value), {observe: 'response'})
-    .subscribe( 
-      (resp) => {
-        if(resp.status !== 200) return; 
-        
-        console.log(resp.body);
-        this.setObject(form);
-        this.router.navigate(['/chat'])
-      },
-      (error) => {
-        const elem = document.getElementById("error")
-        if(elem) elem.style.display = "block"
-      }
-   );
+    this._http.post('http://localhost:3000/api/users/login', (form.value), { observe: 'response' })
+      .subscribe(
+        (resp) => {
+          if (resp.status !== 200) return;
+
+          Preferences.set({
+            key: 'userid',
+            value: JSON.stringify(resp.body['_id'])
+          })
+          this.setObject(form);
+          this.router.navigate(['/chat'])
+        },
+        (error) => {
+          const elem = document.getElementById("error")
+          if (elem) elem.style.display = "block"
+        }
+      );
   }
 
   async setObject(form: NgForm) {
@@ -39,5 +42,6 @@ export class LoginPage implements OnInit {
       key: 'username',
       value: JSON.stringify(form.value.username)
     });
+
   }
 }

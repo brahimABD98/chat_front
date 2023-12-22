@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let message of messages">
+      <ion-label>
+        <h2>{{ message.user?.username ?? message.user }}</h2>
+
+        <p>{{ message.content }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <ion-textarea [(ngModel)]="message" placeholder="Enter your message here"></ion-textarea>
+  </ion-item>
+  <ion-button (click)="sendMessage()">Send</ion-button>
+
+</ion-content>

@@ -5,7 +5,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["tsconfig.json"],
+        "project": ["./chat_front/tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
