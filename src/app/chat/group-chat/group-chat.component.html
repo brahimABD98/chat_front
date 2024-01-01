@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>chat</ion-title>
+    <ion-title>Chat</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,14 +9,21 @@
     <ion-item *ngFor="let message of messages">
       <ion-label>
         <h2>{{ message.user?.username ?? message.user }}</h2>
-
         <p>{{ message.content }}</p>
+
+        <!-- Display file-related information (optional) -->
+        <ion-button *ngIf="message.file" (click)="downloadFile(message)">
+          <a #downloadLink>download</a>
+          <ion-icon *ngIf="message.file" name="attach"></ion-icon>
+          <span *ngIf="message.file">{{ message.file.filename }}</span>
+        </ion-button>
+
       </ion-label>
     </ion-item>
   </ion-list>
   <ion-item>
     <ion-textarea [(ngModel)]="message" placeholder="Enter your message here"></ion-textarea>
+    <input type="file" #fileInput />
   </ion-item>
   <ion-button (click)="sendMessage()">Send</ion-button>
-
 </ion-content>
