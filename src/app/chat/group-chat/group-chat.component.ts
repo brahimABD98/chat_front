@@ -46,6 +46,7 @@ export class GroupChatComponent implements OnInit {
 
   public socket: any;
   public linksource: string;
+  public partcipants: any[] = [];
   public roomId: string;
   public userId: string;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef<HTMLInputElement>;
@@ -53,10 +54,16 @@ export class GroupChatComponent implements OnInit {
   @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef<HTMLAnchorElement>;
 
   public messages: any[] = [];
+  isModalOpen = false;
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
   message: any;
   constructor(private _http: HttpClient, private router: ActivatedRoute, public navCtrl: NavController) {
     this.socket = io('http://localhost:3000');
     this.get_room();
+    this.get_room_participants();
     this.getMessages().subscribe((message) => {
       this.messages.push(message);
     })
@@ -96,6 +103,15 @@ export class GroupChatComponent implements OnInit {
     if (this.roomId)
       this.socket.emit('joinRoom', this.roomId);
   }
+
+  get_room_participants() {
+    this.roomId= this.router.snapshot.paramMap.get('id');
+    this._http.get(`http://localhost:3000/api/rooms/participants/${this.roomId}`).subscribe((data) => {
+      console.log("part",data['users'].map((user)=>user.username))
+      this.partcipants=data['users'].map((user)=>user.username)
+  })
+  }
+
   getMessages(): Observable<any> {
     return new Observable((observer) => {
       // Listen for the 'updateMessages' event from the server

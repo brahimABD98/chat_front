@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Chat</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button expand="block" (click)="setOpen(true)" fill="outline">
+        partcipants
+        <ion-icon name="people-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -27,3 +33,26 @@
   </ion-item>
   <ion-button (click)="sendMessage()">Send</ion-button>
 </ion-content>
+
+
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Participants</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+     <ion-list>
+      <ion-item *ngFor="let participant of partcipants">
+        <ion-label>
+          <h2>{{ participant }}</h2>
+        </ion-label>
+      </ion-item>
+     </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
